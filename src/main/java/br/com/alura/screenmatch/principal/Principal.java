@@ -68,25 +68,19 @@ public class Principal {
         }
     }
 
-
-    private void listarSeriesBuscadas(){
-        List<Serie> series;
-        series = dadosSeries.stream()
-                .map(Serie::new)
-                .toList();
-        series.stream()
-                .sorted(Comparator.comparing(Serie::getGenero))
-                .forEach(System.out::println);
-    }
-
-
-
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
         //dadosSeries.add(dados);
         Serie serie = new Serie(dados);
         serieRepository.save(serie);
         System.out.println(dados);
+    }
+
+    private void listarSeriesBuscadas(){
+        List<Serie> series = serieRepository.findAll();
+        series.stream()
+                .sorted(Comparator.comparing(Serie::getGenero))
+                .forEach(System.out::println);
     }
 
     private DadosSerie getDadosSerie() {
