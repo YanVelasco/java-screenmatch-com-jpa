@@ -32,6 +32,8 @@ public class Principal {
             2 - Buscar episódios
             3 - Listar séries buscadas
             4-  Buscar série por titulo
+            5- Buscar por genêro
+            6- Buscar port ator
             0 - Sair                                
             """;
 
@@ -62,6 +64,9 @@ public class Principal {
                 case 5:
                     buscaPorGenero();
                     break;
+                case 6:
+                    buscaPorAtor();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -85,7 +90,7 @@ public class Principal {
         var nomeSerie = leitura.nextLine().toUpperCase();
 
         //Buscando os episódios pelo nome da série
-        Optional<Serie> serie = series.stream().filter(s -> s.getTitulo().toUpperCase().contains(nomeSerie)).findFirst();
+        Optional<Serie> serie = serieRepository.findByTituloContainingIgnoreCase(nomeSerie);
         if (serie.isPresent()){
             var serieEncontrada = serie.get();
             List<DadosTemporada> temporadas = new ArrayList<>();
@@ -144,6 +149,21 @@ public class Principal {
             }
         } else {
             System.out.println("Gênero não encontrado");
+        }
+    }
+
+    public void buscaPorAtor(){
+        System.out.println("Digite o nome do ator que você gosta:");
+        var ator = leitura.nextLine().toUpperCase();
+
+        List<Serie> seriesPorAtor = serieRepository.findByAtoresContainingIgnoreCase(ator);
+        if (!seriesPorAtor.isEmpty()){
+            System.out.println("Séries que o Ator trabalhou em :");
+            for (Serie serie : seriesPorAtor) {
+                System.out.println(serie.getTitulo());
+            }
+        }else {
+            System.out.println("Ator não encontrado(a)");
         }
     }
 }
