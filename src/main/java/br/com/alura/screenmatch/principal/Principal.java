@@ -3,6 +3,7 @@ package br.com.alura.screenmatch.principal;
 import br.com.alura.screenmatch.model.DadosSerie;
 import br.com.alura.screenmatch.model.DadosTemporada;
 import br.com.alura.screenmatch.model.Serie;
+import br.com.alura.screenmatch.repository.SerieRepository;
 import br.com.alura.screenmatch.service.ConsumoApi;
 import br.com.alura.screenmatch.service.ConverteDados;
 
@@ -20,6 +21,12 @@ public class Principal {
     private final String API_KEY = "&apikey=6585022c";
     private List<DadosSerie> dadosSeries = new ArrayList<>();
 
+    private SerieRepository serieRepository;
+
+    public Principal(SerieRepository serieRepository) {
+        this.serieRepository = serieRepository;
+    }
+
     public void exibeMenu() {
         int opcao = -1;
 
@@ -35,10 +42,10 @@ public class Principal {
 
             if (leitura.hasNextInt()) {
                 opcao = leitura.nextInt();
-                leitura.nextLine(); // Limpar o buffer
+                leitura.nextLine();
             } else {
                 System.out.println("Por favor, digite um número inteiro válido.");
-                leitura.nextLine(); // Limpar o buffer antes de tentar novamente
+                leitura.nextLine();
                 continue;
             }
 
@@ -76,7 +83,9 @@ public class Principal {
 
     private void buscarSerieWeb() {
         DadosSerie dados = getDadosSerie();
-        dadosSeries.add(dados);
+        //dadosSeries.add(dados);
+        Serie serie = new Serie(dados);
+        serieRepository.save(serie);
         System.out.println(dados);
     }
 
