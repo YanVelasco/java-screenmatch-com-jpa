@@ -14,8 +14,6 @@ public class Principal {
     private ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=6585022c";
-    private List<DadosSerie> dadosSeries = new ArrayList<>();
-
     private SerieRepository serieRepository;
     private List<Serie> series = new ArrayList<>();
 
@@ -172,7 +170,7 @@ public class Principal {
     }
 
     private void top5Series() {
-        List<Serie> topSeries = serieRepository.findTop5ByOrderByAvaliacaoDesc();
-        topSeries.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
+        series = serieRepository.findTop5ByOrderByAvaliacaoDesc();
+        series.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
     }
 }
