@@ -34,6 +34,7 @@ public class Principal {
             4-  Buscar série por titulo
             5- Buscar por genêro
             6- Buscar port ator
+            7- Top 5 séries
             0 - Sair                                
             """;
 
@@ -66,6 +67,9 @@ public class Principal {
                     break;
                 case 6:
                     buscaPorAtor();
+                    break;
+                case 7:
+                    top5Series();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -158,12 +162,17 @@ public class Principal {
 
         List<Serie> seriesPorAtor = serieRepository.findByAtoresContainingIgnoreCase(ator);
         if (!seriesPorAtor.isEmpty()){
-            System.out.println("Séries que o Ator trabalhou em :");
+            System.out.println("Séries em que o Ator trabalhou:");
             for (Serie serie : seriesPorAtor) {
-                System.out.println(serie.getTitulo());
+                System.out.println(serie.getTitulo() +" "+ serie.getAvaliacao());
             }
         }else {
             System.out.println("Ator não encontrado(a)");
         }
+    }
+
+    private void top5Series() {
+        List<Serie> topSeries = serieRepository.findTop5ByOrderByAvaliacaoDesc();
+        topSeries.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
     }
 }

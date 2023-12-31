@@ -14,4 +14,6 @@ public interface SerieRepository extends JpaRepository<Serie, UUID> {
     List<Serie> findByGenero(Categoria genero);
 
     List<Serie> findByAtoresContainingIgnoreCase(String atores);
+
+    List<Serie> findTop5ByOrderByAvaliacaoDesc();
 }
