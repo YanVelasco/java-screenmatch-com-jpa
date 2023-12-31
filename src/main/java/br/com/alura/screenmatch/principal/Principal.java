@@ -33,6 +33,7 @@ public class Principal {
             5-  Buscar por genêro
             6-  Buscar por ator
             7-  Top 5 séries
+            8-  Buscar série pelo minímo de temporadas e com avaliação
             0 - Sair                                
             """;
 
@@ -68,6 +69,9 @@ public class Principal {
                     break;
                 case 7:
                     top5Series();
+                    break;
+                case 8:
+                    bucarSeriePorLimiteDeTemporadas();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -171,6 +175,15 @@ public class Principal {
 
     private void top5Series() {
         series = serieRepository.findTop5ByOrderByAvaliacaoDesc();
+        series.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
+    }
+
+    private void bucarSeriePorLimiteDeTemporadas() {
+        System.out.println("Digite o numero de terporadas que você quer:");
+        var temporadas = leitura.nextInt();
+        System.out.println("Digite a avalição da serie:");
+        double avaliacao = leitura.nextDouble();
+        series = serieRepository.findByTotalTemporadasLessThanOrEqualAndAvaliacaoGreaterThanOrEqual(temporadas, avaliacao);
         series.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
     }
 }
