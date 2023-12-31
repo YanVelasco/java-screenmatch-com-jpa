@@ -183,8 +183,7 @@ public class Principal {
         var temporadas = leitura.nextInt();
         System.out.println("Digite a avalição da serie:");
         double avaliacao = leitura.nextDouble();
-        series = serieRepository.findByTotalTemporadasLessThanEqualAndAvaliacaoGreaterThanEqual(temporadas, avaliacao);
+        series = serieRepository.seriesPorTemporadaEAValiacao(temporadas, avaliacao);
         series.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
-
     }
 }
