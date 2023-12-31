@@ -30,9 +30,9 @@ public class Principal {
             2 - Buscar episódios
             3 - Listar séries buscadas
             4-  Buscar série por titulo
-            5- Buscar por genêro
-            6- Buscar port ator
-            7- Top 5 séries
+            5-  Buscar por genêro
+            6-  Buscar por ator
+            7-  Top 5 séries
             0 - Sair                                
             """;
 
@@ -141,13 +141,13 @@ public class Principal {
 
     private void buscaPorGenero() {
         System.out.println("Digite o gênero que você gosta:");
-        var genero = leitura.nextLine().toUpperCase();
-
-        List<Serie> seriesPorGenero = serieRepository.findByGenero(Categoria.valueOf(genero));
-        if (!seriesPorGenero.isEmpty()) {
+        var genero = leitura.nextLine();
+        Categoria categoria = Categoria.fromPortugues(genero);
+        series = serieRepository.findByGenero(categoria);
+        if (!series.isEmpty()) {
             System.out.println("Dados das séries:");
-            for (Serie serie : seriesPorGenero) {
-                System.out.println(serie);
+            for (Serie serie : series) {
+                System.out.println(serie.getTitulo() + " " + serie.getGenero());
             }
         } else {
             System.out.println("Gênero não encontrado");

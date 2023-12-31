@@ -11,7 +11,7 @@ import java.util.UUID;
 public interface SerieRepository extends JpaRepository<Serie, UUID> {
     Optional<Serie> findByTituloContainingIgnoreCase(String nomeSerie);
 
-    List<Serie> findByGenero(Categoria genero);
+    List<Serie> findByGenero(Categoria categoria);
 
     List<Serie> findByAtoresContainingIgnoreCase(String atores);
 
