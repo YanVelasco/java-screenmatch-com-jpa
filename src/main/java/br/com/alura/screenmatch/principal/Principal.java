@@ -195,8 +195,8 @@ public class Principal {
     private void buscarEpisodioPorTrecho() {
         System.out.println("Qual o nome do episódio para busca?");
         var trechoEpisodio = leitura.nextLine();
-        List<Episodio> episodiosEncontrados = serieRepository.episodiosPorTrecho(trechoEpisodio);
-        episodiosEncontrados.forEach(e ->
+        episodios = serieRepository.episodiosPorTrecho(trechoEpisodio);
+        episodios.forEach(e ->
                 System.out.printf("Série: %s Temporada %s - Episódio %s - %s\n",
                         e.getSerie().getTitulo(), e.getTemporada(),
                         e.getNumeroEpisodio(), e.getTitulo()));
