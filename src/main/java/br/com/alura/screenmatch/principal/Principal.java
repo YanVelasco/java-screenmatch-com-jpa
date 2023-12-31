@@ -16,6 +16,7 @@ public class Principal {
     private final String API_KEY = "&apikey=6585022c";
     private SerieRepository serieRepository;
     private List<Serie> series = new ArrayList<>();
+    private List<Episodio> episodios = new ArrayList<>();
 
     public Principal(SerieRepository serieRepository) {
         this.serieRepository = serieRepository;
@@ -34,6 +35,7 @@ public class Principal {
             6-  Buscar por ator
             7-  Top 5 séries
             8-  Buscar série pelo minímo de temporadas e com avaliação
+            9-  Busca por episódio
             0 - Sair                                
             """;
 
@@ -72,6 +74,9 @@ public class Principal {
                     break;
                 case 8:
                     bucarSeriePorLimiteDeTemporadas();
+                    break;
+                case 9:
+                    buscarEpisodioPorTrecho();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -185,5 +190,15 @@ public class Principal {
         double avaliacao = leitura.nextDouble();
         series = serieRepository.seriesPorTemporadaEAValiacao(temporadas, avaliacao);
         series.stream().map(serie -> serie.getTitulo() + " " + serie.getAvaliacao()).forEach(System.out::println);
+    }
+
+    private void buscarEpisodioPorTrecho() {
+        System.out.println("Qual o nome do episódio para busca?");
+        var trechoEpisodio = leitura.nextLine();
+        List<Episodio> episodiosEncontrados = serieRepository.episodiosPorTrecho(trechoEpisodio);
+        episodiosEncontrados.forEach(e ->
+                System.out.printf("Série: %s Temporada %s - Episódio %s - %s\n",
+                        e.getSerie().getTitulo(), e.getTemporada(),
+                        e.getNumeroEpisodio(), e.getTitulo()));
     }
 }

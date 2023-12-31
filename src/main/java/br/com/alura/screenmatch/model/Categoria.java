@@ -6,7 +6,9 @@ public enum Categoria {
     COMEDIA("Comedy", "Comédia"),
     DRAMA("Drama", "Drama"),
     CRIME("Crime", "Crime"),
-    ANIMACAO("Animation", "Animação");
+    ANIMACAO("Animation", "Animação"),
+    AVENTURA("Adventure", "Aventura"),
+    FICCAO_CIENTIFICA("Science Fiction", "Ficção Científica");
     private String categoriaOmdb;
     private String categoriaPortugues;
 
@@ -25,6 +27,9 @@ public enum Categoria {
     }
 
     public static Categoria fromPortugues(String text) {
+        if ("Comedy".equalsIgnoreCase(text)) {
+            return COMEDIA;
+        }
         for (Categoria categoria : Categoria.values()) {
             if (categoria.categoriaPortugues.equalsIgnoreCase(text)) {
                 return categoria;
