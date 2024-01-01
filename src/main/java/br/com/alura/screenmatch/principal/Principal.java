@@ -225,6 +225,7 @@ public class Principal {
     private void bucarEpisodiosPorData(){
         buscarSeriePorTitulo();
         if (seriesBuscadas.isPresent()){
+            System.out.println("Digite o ano de lançamento:");
             var anoDeLancamento = leitura.nextInt();
             leitura.nextLine();
             Serie serie = seriesBuscadas.get();
@@ -234,6 +235,5 @@ public class Principal {
                             e.getSerie().getTitulo(), e.getTemporada(),
                             e.getNumeroEpisodio(), e.getTitulo()));
         }
-    }      System.out.println("Digite o ano de lançamento:");
-
+    }
 }
