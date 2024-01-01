@@ -9,14 +9,15 @@ import java.util.*;
 
 public class Principal {
 
-    private Scanner leitura = new Scanner(System.in);
-    private ConsumoApi consumo = new ConsumoApi();
-    private ConverteDados conversor = new ConverteDados();
+    private final Scanner leitura = new Scanner(System.in);
+    private final ConsumoApi consumo = new ConsumoApi();
+    private final ConverteDados conversor = new ConverteDados();
     private final String ENDERECO = "https://www.omdbapi.com/?t=";
     private final String API_KEY = "&apikey=6585022c";
-    private SerieRepository serieRepository;
+    private final SerieRepository serieRepository;
     private List<Serie> series = new ArrayList<>();
     private List<Episodio> episodios = new ArrayList<>();
+    private Optional<Serie> seriesBuscadas;
 
     public Principal(SerieRepository serieRepository) {
         this.serieRepository = serieRepository;
@@ -36,6 +37,7 @@ public class Principal {
             7-  Top 5 séries
             8-  Buscar série pelo minímo de temporadas e com avaliação
             9-  Busca por episódio
+            10- Buscar os top 10 episódios da série
             0 - Sair                                
             """;
 
@@ -77,6 +79,9 @@ public class Principal {
                     break;
                 case 9:
                     buscarEpisodioPorTrecho();
+                    break;
+                case 10:
+                    top10EpisodiosDaSerie();
                     break;
                 case 0:
                     System.out.println("Saindo...");
@@ -139,10 +144,10 @@ public class Principal {
     private void buscarSeriePorTitulo() {
         System.out.println("Digite o titulo da série:");
         var nomeSerie = leitura.nextLine().toUpperCase();
-        Optional<Serie>serieBuscada = serieRepository.findByTituloContainingIgnoreCase(nomeSerie);
+        seriesBuscadas = serieRepository.findByTituloContainingIgnoreCase(nomeSerie);
 
-        if (serieBuscada.isPresent()){
-            System.out.println("Dados da série: " + serieBuscada.get());
+        if (seriesBuscadas.isPresent()){
+            System.out.println("Dados da série: " + seriesBuscadas.get());
         }else{
             System.out.println("Série não encontrada");
         }
@@ -200,5 +205,17 @@ public class Principal {
                 System.out.printf("Série: %s Temporada %s - Episódio %s - %s\n",
                         e.getSerie().getTitulo(), e.getTemporada(),
                         e.getNumeroEpisodio(), e.getTitulo()));
+    }
+
+    private void top10EpisodiosDaSerie(){
+        buscarSeriePorTitulo();
+        if (seriesBuscadas.isPresent()){
+            Serie serie = seriesBuscadas.get();
+            episodios = serieRepository.topEpisodios(serie);
+            episodios.forEach(e ->
+                    System.out.printf("Série: %s Temporada %s - Episódio %s - %s\n",
+                            e.getSerie().getTitulo(), e.getTemporada(),
+                            e.getNumeroEpisodio(), e.getTitulo()));
+        }
     }
 }
