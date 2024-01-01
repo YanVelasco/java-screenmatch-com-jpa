@@ -83,6 +83,9 @@ public class Principal {
                 case 10:
                     top10EpisodiosDaSerie();
                     break;
+                case 11:
+                    bucarEpisodiosPorData();
+                    break;
                 case 0:
                     System.out.println("Saindo...");
                     break;
@@ -218,4 +221,19 @@ public class Principal {
                             e.getNumeroEpisodio(), e.getTitulo()));
         }
     }
+
+    private void bucarEpisodiosPorData(){
+        buscarSeriePorTitulo();
+        if (seriesBuscadas.isPresent()){
+            var anoDeLancamento = leitura.nextInt();
+            leitura.nextLine();
+            Serie serie = seriesBuscadas.get();
+            episodios = serieRepository.episodiosPorAno(serie ,anoDeLancamento);
+            episodios.forEach(e ->
+                    System.out.printf("Série: %s Temporada %s - Episódio %s - %s\n",
+                            e.getSerie().getTitulo(), e.getTemporada(),
+                            e.getNumeroEpisodio(), e.getTitulo()));
+        }
+    }      System.out.println("Digite o ano de lançamento:");
+
 }
